@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+</head>
+<body>
+ <form action="" method="post">
+
+        <h1>Sign Up</h1>
+        
+        <fieldset>
+          <legend><span class="number">1</span>Your basic info</legend>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required="">
+		  
+		  <label for="Address">Address:</label>
+          <input type="text" id="address" name="address">
+          
+          <label for="mail">Email:</label>
+          <input type="email" id="email" name="email">
+          
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password">
+        
+        </fieldset>
+        
+        <fieldset>
+          <legend><span class="number">2</span>TYPE</legend>
+		  <label>Type:</label>
+          <input type="radio" id="Individual"name="user_Type" value="individual"><label class="light" for="Individual">Individual</label><br>
+          <input type="radio" id="Bussiness"  name="user_Type" value="business"><label class="light" for="Bussiness">Bussiness</label><br>
+          <input type="radio" id="Bank"  name="user_Type" value="bank"><label class="light" for="Bank">Bank</label>
+		  
+		  <label for="bio">Biography:</label>
+          <input type="text" id="biography" name="biography"></input>
+      </fieldset>
+        <input type="button" class="btn-click" value="Sign up"></input>
+      </form>
+      
+    </body>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript"></script>
+
+    <script>
+      $(document).ready(function () {
+         
+        $(document).on('click', '.btn-click', function () { 
+
+        let account ="";
+        if ($("input[name=user_Type]:checked").val() == "bank")
+        { account = "100000000000";}
+        else
+        { account = "1000";}
+
+          $.ajax({
+             type: "POST",
+             url: "http://localhost:8000/api/adduser",
+             data: {
+              "name" : $("input[type=text][name=name]").val(),
+              "address" : $("input[type=text][name=address]").val(),
+              "email" : $("input[type=email][name=email]").val(),
+              "password" : $("input[type=password][name=password]").val(),
+              "account" : account,
+              "user_type" : $("input[name=user_Type]:checked").val(),
+              "biography" : $("input[type=text][name=biography]").val()
+            },
+            cache: false,        
+          complete: function (data, status) {
+            if (status === 'error' || !data.responseText) {
+              alert(data.responseText);
+              
+            }
+            else {
+              alert(data.responseText);
+              window.location.href = "index.html";
+            }
+          }  
+        });
+      });
+    });  
+    </script>
+</html>
